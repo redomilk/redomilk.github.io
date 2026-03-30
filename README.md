@@ -1,2 +1,2 @@
-# redomlk.github.io
+# redomilk.github.io
 Spring 2026 INOV Capstone Interactive Portfolio Site
