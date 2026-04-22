@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>redomilk — Portfolio</title>
+    <title>Liam Davidson — Portfolio</title>
     <meta name="description" content="Game portfolio for Liam Davidson." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #04070d;
-            --bg-soft: #08111c;
-            --panel: rgba(8, 18, 30, 0.72);
-            --border: rgba(110, 190, 255, 0.14);
-            --text: #e2f6ff;
-            --muted: #84a8bf;
-            --accent: #35c4ff;
-            --accent-2: #6c7dff;
-            --accent-3: #7df0d2;
-            --success: #1f8f78;
-            --shadow: 0 18px 60px rgba(0, 0, 0, 0.42);
+            --bg: #f6f1e8;
+            --bg-soft: #fbf7f1;
+            --panel: rgba(255, 252, 247, 0.88);
+            --border: rgba(60, 46, 32, 0.12);
+            --text: #1e1a17;
+            --muted: #6e6256;
+            --accent: #7a5c43;
+            --accent-2: #b28b67;
+            --accent-3: #9f7c5d;
+            --success: #56735f;
+            --shadow: 0 18px 48px rgba(45, 31, 18, 0.08);
             --radius: 18px;
             --max: 1100px;
         }
@@ -33,34 +36,23 @@
         }
 
         body {
-            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: radial-gradient(circle at 15% 10%, rgba(53, 196, 255, 0.08), transparent 18%), radial-gradient(circle at 80% 18%, rgba(108, 125, 255, 0.10), transparent 20%), radial-gradient(circle at 50% 120%, rgba(0, 255, 200, 0.08), transparent 30%), linear-gradient(180deg, #07111d 0%, #050a12 26%, #03060b 65%, #020409 100%);
+            font-family: "Inter", system-ui, sans-serif;
+            background: radial-gradient(circle at 20% 10%, rgba(178, 139, 103, 0.08), transparent 18%), radial-gradient(circle at 80% 18%, rgba(122, 92, 67, 0.05), transparent 22%), linear-gradient(180deg, #faf6ef 0%, #f5efe6 100%);
             color: var(--text);
             min-height: 100vh;
-            line-height: 1.55;
+            line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            transition: background 0.2s ease, color 0.2s ease;
         }
 
-            body::before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                pointer-events: none;
-                background: radial-gradient(circle at 20% 30%, rgba(125, 240, 210, 0.05), transparent 10%), radial-gradient(circle at 75% 40%, rgba(53, 196, 255, 0.05), transparent 12%), radial-gradient(circle at 60% 75%, rgba(108, 125, 255, 0.05), transparent 14%);
-                opacity: 0.9;
-                z-index: -2;
-            }
-
-            body::after {
-                content: "";
-                position: fixed;
-                inset: 0;
-                pointer-events: none;
-                background-image: linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
-                background-size: 100% 72px, 72px 100%;
-                mask-image: linear-gradient(180deg, rgba(255,255,255,0.32), transparent 75%);
-                z-index: -1;
+            body::before,
+            body::after,
+            .depth-overlay,
+            .particle-field,
+            .cursor-trail,
+            .scroll-progress {
+                display: none;
             }
 
         a {
@@ -78,14 +70,20 @@
             margin: 0 auto;
         }
 
+        .logo,
+        h1, h2, h3,
+        .wall-question {
+            font-family: "Playfair Display", serif;
+        }
+
         .site-header {
             position: sticky;
             top: 0;
             z-index: 20;
-            backdrop-filter: blur(18px);
-            background: linear-gradient(180deg, rgba(4, 10, 18, 0.84), rgba(4, 10, 18, 0.6));
-            border-bottom: 1px solid rgba(110, 190, 255, 0.10);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.16);
+            backdrop-filter: blur(12px);
+            background: rgba(250, 246, 239, 0.9);
+            border-bottom: 1px solid var(--border);
+            box-shadow: none;
         }
 
             .site-header .container {
@@ -96,14 +94,10 @@
             }
 
         .logo {
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            font-size: 1.2rem;
         }
-
-            .logo span {
-                color: var(--accent-2);
-            }
 
         nav {
             display: flex;
@@ -122,6 +116,11 @@
                     color: var(--text);
                 }
 
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
         .hero {
             padding: 6rem 0 4rem;
         }
@@ -137,20 +136,19 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            border: 1px solid rgba(125, 240, 210, 0.18);
-            background: linear-gradient(135deg, rgba(53, 196, 255, 0.10), rgba(125, 240, 210, 0.08));
-            color: #b8f5ea;
+            border: 1px solid var(--border);
+            background: rgba(255, 252, 247, 0.75);
+            color: var(--muted);
             padding: 0.45rem 0.9rem;
             border-radius: 999px;
             font-size: 0.85rem;
             margin-bottom: 1rem;
-            box-shadow: inset 0 0 20px rgba(125, 240, 210, 0.03);
         }
 
         h1 {
-            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-size: clamp(3rem, 7vw, 5.6rem);
             line-height: 0.95;
-            letter-spacing: -0.06em;
+            letter-spacing: -0.04em;
             margin-bottom: 1rem;
         }
 
@@ -170,60 +168,87 @@
             gap: 0.75rem;
         }
 
+        .social-icons {
+            align-items: center;
+        }
+
+        .social-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--bg-soft);
+            color: var(--text);
+            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+        }
+
+            .social-icon-link:hover {
+                transform: translateY(-2px);
+                border-color: var(--accent-2);
+            }
+
+            .social-icon-link svg {
+                width: 19px;
+                height: 19px;
+            }
+
         .btn,
         .chip,
-        .filter-btn {
+        .filter-btn,
+        .utility-btn {
             border: 1px solid var(--border);
             background: var(--bg-soft);
             color: var(--text);
             border-radius: 999px;
-            padding: 0.8rem 1.15rem;
-            font-size: 0.95rem;
+            padding: 0.75rem 1.05rem;
+            font-size: 0.92rem;
             cursor: pointer;
-            transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+            transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
         }
 
             .btn:hover,
             .chip:hover,
-            .filter-btn:hover {
+            .filter-btn:hover,
+            .utility-btn:hover {
                 transform: translateY(-2px);
                 border-color: var(--accent-2);
             }
 
             .btn.primary {
-                background: linear-gradient(135deg, var(--accent), var(--accent-2));
-                border: 1px solid rgba(255,255,255,0.05);
-                box-shadow: 0 0 24px rgba(53, 196, 255, 0.18);
+                background: var(--text);
+                color: #fffaf4;
+                border-color: var(--text);
+                box-shadow: none;
             }
+
+        .hero-card,
+        .project-card,
+        .panel,
+        .contact-box,
+        .wall-controls,
+        .sticky-board-wrap {
+            background: rgba(255, 252, 247, 0.9);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            backdrop-filter: none;
+        }
 
         .hero-card {
             position: relative;
             padding: 1.4rem;
             border-radius: 28px;
-            background: linear-gradient(180deg, rgba(13, 28, 43, 0.88), rgba(7, 16, 27, 0.72));
-            border: 1px solid rgba(110, 190, 255, 0.12);
-            box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04);
             overflow: hidden;
             min-height: 380px;
         }
 
-            .hero-card::before {
-                content: "";
-                position: absolute;
-                inset: auto -18% -26% auto;
-                width: 260px;
-                height: 260px;
-                background: radial-gradient(circle, rgba(53,196,255,0.24), transparent 70%);
-                filter: blur(18px);
-                pointer-events: none;
-            }
-
-            .hero-card::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 28%);
-                pointer-events: none;
+            .hero-card::before,
+            .hero-card::after,
+            .project-card::before,
+            .depth-layer::before {
+                display: none;
             }
 
         .avatar-wrap {
@@ -232,7 +257,7 @@
             border-radius: 28px;
             overflow: hidden;
             margin-bottom: 1rem;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
             box-shadow: var(--shadow);
         }
 
@@ -252,8 +277,8 @@
         .stat {
             padding: 1rem;
             border-radius: 18px;
-            background: rgba(255,255,255,0.025);
-            border: 1px solid rgba(110, 190, 255, 0.08);
+            background: rgba(122, 92, 67, 0.03);
+            border: 1px solid var(--border);
         }
 
             .stat strong {
@@ -271,6 +296,20 @@
             padding: 2rem 0 4rem;
         }
 
+        .depth-layer {
+            position: relative;
+        }
+
+        .depth-label,
+        .wall-label {
+            color: var(--accent-3);
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 0.75rem;
+            margin-bottom: 0.4rem;
+            opacity: 0.8;
+        }
+
         .section-head {
             display: flex;
             justify-content: space-between;
@@ -280,7 +319,7 @@
         }
 
             .section-head h2 {
-                font-size: 1.4rem;
+                font-size: 2rem;
                 letter-spacing: -0.03em;
             }
 
@@ -293,7 +332,6 @@
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 1rem;
-            perspective: 1200px;
         }
 
         .project-card {
@@ -301,32 +339,47 @@
             position: relative;
             padding: 1.2rem;
             border-radius: var(--radius);
-            background: linear-gradient(180deg, rgba(9, 20, 32, 0.86), rgba(7, 15, 25, 0.70));
-            border: 1px solid rgba(110, 190, 255, 0.10);
-            backdrop-filter: blur(14px);
             min-height: 280px;
-            box-shadow: var(--shadow);
-            transform-style: preserve-3d;
-            transition: transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
             overflow: hidden;
+            transition: border-color 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
         }
 
-            .project-card::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background: linear-gradient(135deg, rgba(53, 196, 255, 0.05), transparent 30%, transparent 70%, rgba(125, 240, 210, 0.04));
-                pointer-events: none;
-            }
-
             .project-card:hover {
-                border-color: rgba(53, 196, 255, 0.42);
-                box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36), 0 0 28px rgba(53, 196, 255, 0.10);
+                border-color: var(--accent-2);
+                box-shadow: 0 22px 40px rgba(45, 31, 18, 0.1);
             }
 
             .project-card.hidden {
                 display: none;
             }
+
+        .project-card-link {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+            height: 100%;
+        }
+
+        .project-image-wrap {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            background: rgba(122, 92, 67, 0.08);
+            border: 1px solid var(--border);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.03);
+        }
 
         .project-top {
             display: flex;
@@ -336,9 +389,10 @@
             margin-bottom: 0.9rem;
         }
 
-        .project-card h3 {
-            font-size: 1.15rem;
-            letter-spacing: -0.03em;
+        .project-card h3,
+        .wall-question {
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
         }
 
         .project-role {
@@ -360,20 +414,21 @@
         }
 
         .inline-link {
-            color: #b7d3ff;
+            color: var(--accent);
             font-size: 0.92rem;
         }
 
         .chip {
             padding: 0.45rem 0.8rem;
             font-size: 0.82rem;
-            background: rgba(255,255,255,0.035);
-            border: 1px solid rgba(110, 190, 255, 0.08);
+            background: rgba(122, 92, 67, 0.05);
+            border: 1px solid var(--border);
         }
 
-        .filter-btn.active {
-            background: rgba(56, 139, 253, 0.18);
-            border-color: rgba(56, 139, 253, 0.65);
+        .filter-btn.active,
+        .utility-btn.active {
+            background: rgba(122, 92, 67, 0.08);
+            border-color: var(--accent-2);
         }
 
         .about-grid {
@@ -385,9 +440,6 @@
         .panel {
             padding: 1.25rem;
             border-radius: var(--radius);
-            background: linear-gradient(180deg, rgba(9, 20, 32, 0.86), rgba(7, 15, 25, 0.70));
-            border: 1px solid rgba(110, 190, 255, 0.10);
-            box-shadow: var(--shadow);
         }
 
             .panel p,
@@ -404,15 +456,238 @@
             text-align: center;
             padding: 2rem;
             border-radius: 26px;
-            background: linear-gradient(180deg, rgba(18, 44, 66, 0.72), rgba(6, 18, 30, 0.84));
-            border: 1px solid rgba(125, 240, 210, 0.12);
-            box-shadow: var(--shadow), 0 0 32px rgba(53, 196, 255, 0.08);
         }
 
             .contact-box p {
-                color: #d0d7de;
+                color: var(--muted);
                 max-width: 54ch;
                 margin: 0.75rem auto 1.25rem;
+            }
+
+        .design-wall-shell {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .wall-controls,
+        .sticky-board-wrap {
+            min-height: 520px;
+        }
+
+        .prompt-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .wall-question {
+            line-height: 1.15;
+            max-width: 20ch;
+        }
+
+        .mode-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .composer-block {
+            margin-bottom: 1rem;
+        }
+
+        #wallText {
+            width: 100%;
+            min-height: 180px;
+            resize: vertical;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--text);
+            padding: 1rem;
+            font: inherit;
+            outline: none;
+            box-shadow: none;
+        }
+
+            #wallText:focus {
+                border-color: var(--accent-2);
+            }
+
+        .wall-meta {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.45rem;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        #drawCanvas {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: #f8efb8;
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        .draw-actions,
+        .submit-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+
+        .sticky-board-wrap {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 252, 247, 0.9);
+        }
+
+        .sticky-board {
+            position: relative;
+            min-height: 520px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .sticky-note {
+            position: absolute;
+            width: 170px;
+            min-height: 150px;
+            padding: 1.2rem 0.9rem 0.9rem;
+            border-radius: 8px 8px 16px 16px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+            border: 1px solid rgba(0,0,0,0.08);
+            overflow: hidden;
+            opacity: 0;
+            transform-origin: center top;
+            animation: stickyFadeIn 0.45s ease forwards, stickyBob 4.8s ease-in-out infinite;
+        }
+
+            .sticky-note:active {
+                cursor: grabbing;
+                animation-play-state: paused;
+            }
+
+            .sticky-note:hover {
+                box-shadow: 0 18px 36px rgba(0,0,0,0.16);
+                animation-play-state: paused;
+            }
+
+            .sticky-note::before,
+            .sticky-note::after {
+                content: "";
+                position: absolute;
+                width: 36px;
+                height: 12px;
+                background: rgba(255, 255, 255, 0.42);
+                border: 1px solid rgba(80, 65, 50, 0.08);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                z-index: 2;
+                pointer-events: none;
+                backdrop-filter: blur(1px);
+            }
+
+            .sticky-note::before {
+                top: 6px;
+                left: -6px;
+                transform: rotate(-35deg);
+            }
+
+            .sticky-note::after {
+                top: 6px;
+                right: -6px;
+                transform: rotate(35deg);
+            }
+
+        @keyframes stickyFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.96) rotate(var(--note-rotation, 0deg));
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(var(--note-rotation, 0deg));
+            }
+        }
+
+        @keyframes stickyBob {
+            0% {
+                transform: translateY(0px) rotate(var(--note-rotation, 0deg));
+            }
+
+            50% {
+                transform: translateY(-4px) rotate(calc(var(--note-rotation, 0deg) + 0.6deg));
+            }
+
+            100% {
+                transform: translateY(0px) rotate(var(--note-rotation, 0deg));
+            }
+        }
+
+        .sticky-note small {
+            display: block;
+            font-size: 0.68rem;
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
+            opacity: 0.72;
+            color: rgba(15, 25, 32, 0.82);
+        }
+
+        .sticky-note p {
+            font-size: 0.92rem;
+            line-height: 1.35;
+            color: rgba(15, 25, 32, 0.95);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .sticky-note img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .sticky-yellow {
+            background: linear-gradient(180deg, #f8efb8, #f2e18e);
+        }
+
+        .sticky-pink {
+            background: linear-gradient(180deg, #f8c6d7, #eea8c1);
+        }
+
+        .sticky-blue {
+            background: linear-gradient(180deg, #b8e8f8, #95d8f1);
+        }
+
+        .sticky-green {
+            background: linear-gradient(180deg, #cceec8, #addfa7);
+        }
+
+        .sticky-empty {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            text-align: center;
+            padding: 2rem;
+            pointer-events: none;
+        }
+
+            .sticky-empty p {
+                max-width: 30ch;
             }
 
         footer {
@@ -420,127 +695,6 @@
             color: var(--muted);
             text-align: center;
             font-size: 0.9rem;
-        }
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 50;
-        }
-
-            .modal.open {
-                display: flex;
-            }
-
-        .modal-card {
-            width: min(760px, 100%);
-            max-height: 85vh;
-            overflow: auto;
-            background: #11161d;
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            align-items: start;
-            margin-bottom: 1rem;
-        }
-
-        .close-btn {
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text);
-            border-radius: 12px;
-            padding: 0.55rem 0.8rem;
-            cursor: pointer;
-        }
-
-        .muted {
-            color: var(--muted);
-        }
-
-        .scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            z-index: 60;
-            background: linear-gradient(90deg, var(--accent-3), var(--accent), var(--accent-2));
-            box-shadow: 0 0 14px rgba(53, 196, 255, 0.45);
-        }
-
-        .cursor-trail {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .trail-dot {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(125,240,210,0.95), rgba(53,196,255,0.72) 55%, rgba(108,125,255,0.42));
-            box-shadow: 0 0 12px rgba(53, 196, 255, 0.3);
-            transform: translate(-50%, -50%);
-            opacity: 0.9;
-            filter: blur(0.4px);
-        }
-
-        .search-shell {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .search-wrap {
-            flex: 1 1 260px;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.85rem 1rem;
-            border-radius: 999px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: var(--shadow);
-        }
-
-            .search-wrap input {
-                flex: 1;
-                background: transparent;
-                border: none;
-                color: var(--text);
-                font-size: 0.95rem;
-                outline: none;
-            }
-
-            .search-wrap span {
-                color: var(--muted);
-                font-size: 0.82rem;
-                border: 1px solid rgba(255,255,255,0.08);
-                padding: 0.2rem 0.45rem;
-                border-radius: 8px;
-            }
-
-        .results-meta {
-            color: var(--muted);
-            font-size: 0.9rem;
-            min-width: 110px;
-            text-align: right;
         }
 
         .project-card.reveal,
@@ -559,55 +713,15 @@
             }
 
         .project-card.featured {
-            border-color: rgba(124, 58, 237, 0.7);
-            box-shadow: 0 14px 50px rgba(124, 58, 237, 0.18);
+            border-color: var(--accent-2);
+            box-shadow: 0 14px 40px rgba(45, 31, 18, 0.08);
         }
 
-        .utility-row {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .utility-btn {
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.04);
-            color: var(--muted);
-            padding: 0.65rem 0.9rem;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-            .utility-btn:hover,
-            .utility-btn.active {
-                color: var(--text);
-                border-color: rgba(56, 139, 253, 0.55);
+        @media (max-width: 980px) {
+            .design-wall-shell {
+                grid-template-columns: 1fr;
             }
-
-        body.light-mode {
-            --bg: #eaf7ff;
-            --bg-soft: #f5fbff;
-            --panel: rgba(255, 255, 255, 0.82);
-            --border: rgba(63, 120, 173, 0.18);
-            --text: #082235;
-            --muted: #4c7187;
-            --accent: #0aa7ff;
-            --accent-2: #4e74ff;
-            --accent-3: #31d4be;
-            --shadow: 0 10px 30px rgba(15, 48, 78, 0.10);
-            background: radial-gradient(circle at 15% 10%, rgba(10, 167, 255, 0.10), transparent 18%), radial-gradient(circle at 80% 18%, rgba(78, 116, 255, 0.10), transparent 20%), linear-gradient(180deg, #f1fbff 0%, #e4f4fb 100%);
         }
-
-            body.light-mode .site-header {
-                background: linear-gradient(180deg, rgba(241, 251, 255, 0.86), rgba(241, 251, 255, 0.64));
-                border-bottom: 1px solid rgba(8, 34, 53, 0.06);
-            }
-
-            body.light-mode .modal-card {
-                background: #f8fdff;
-            }
 
         @media (max-width: 900px) {
             .hero-grid,
@@ -652,18 +766,18 @@
 
             * {
                 transition: none !important;
+                animation: none !important;
             }
         }
     </style>
 </head>
 <body>
-    <div class="scroll-progress" id="scrollProgress"></div>
-    <div class="cursor-trail" id="cursorTrail" aria-hidden="true"></div>
     <header class="site-header">
         <div class="container">
-            <a href="#top" class="logo">redo<span>milk</span></a>
+            <a href="#top" class="logo">Liam Davidson</a>
             <nav>
                 <a href="#projects">Projects</a>
+                <a href="#design-wall">Design Wall</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
                 <a href="https://github.com/redomilk" target="_blank" rel="noreferrer">GitHub</a>
@@ -675,28 +789,42 @@
         <section class="hero">
             <div class="container hero-grid">
                 <div>
-                    <div class="eyebrow">Abyss Dweller • Underwater Roguelike • Systems Design</div>
-                    <h1>Designing dark systems that feel mysterious, readable, and alive beneath the surface.</h1>
+                    <div class="eyebrow">Game Design • Systems • Interactive Work</div>
+                    <h1>Game designer focused on systems, player experience, and interactive storytelling.</h1>
                     <p>
-                        I build player experiences through systems design, iteration, and hands-on development.
-                        This site is a small home for projects, experiments, and the way I think about games.
+                        I build games and prototypes with a focus on readable systems, meaningful player choices, and thoughtful iteration.
+                        This portfolio collects selected projects, process, and experiments.
                     </p>
                     <div class="cta-row">
                         <a href="#projects" class="btn primary">See my work</a>
                         <a href="https://github.com/redomilk/redomilk.github.io" class="btn" target="_blank" rel="noreferrer">View source</a>
                     </div>
-                    <div class="social-row" style="margin-top: 1rem;">
-                        <a class="inline-link" href="https://github.com/redomilk" target="_blank" rel="noreferrer">GitHub</a>
-                        <a class="inline-link" href="mailto:you@example.com">Email</a>
-                        <a class="inline-link" href="#contact">Let’s connect</a>
+                    <div class="social-row social-icons" style="margin-top: 1rem;">
+                        <a class="social-icon-link" href="https://github.com/redomilk" target="_blank" rel="noreferrer" aria-label="GitHub">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="currentColor" d="M12 2C6.48 2 2 6.58 2 12.23c0 4.52 2.87 8.35 6.84 9.71.5.1.68-.22.68-.5 0-.24-.01-1.04-.01-1.89-2.78.62-3.37-1.21-3.37-1.21-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.86.09-.66.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.72 0 0 .84-.27 2.75 1.05A9.3 9.3 0 0 1 12 6.84c.85 0 1.71.12 2.51.36 1.91-1.32 2.75-1.05 2.75-1.05.55 1.42.2 2.46.1 2.72.64.72 1.03 1.63 1.03 2.75 0 3.95-2.35 4.82-4.58 5.07.36.32.68.95.68 1.92 0 1.39-.01 2.5-.01 2.84 0 .28.18.61.69.5A10.25 10.25 0 0 0 22 12.23C22 6.58 17.52 2 12 2Z" />
+                            </svg>
+                        </a>
+
+                        <a class="social-icon-link" href="mailto:liamdavidsondev@gmail.com" aria-label="Email">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="currentColor" d="M3 5.5A2.5 2.5 0 0 1 5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5v-13Zm2 .5v.2l7 5.25 7-5.25V6h-14Zm14 2.7-6.4 4.8a1 1 0 0 1-1.2 0L5 8.7v9.8a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V8.7Z" />
+                            </svg>
+                        </a>
+
+                        <a class="social-icon-link" href="https://www.linkedin.com/in/liam-davidson-521913302" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="currentColor" d="M6.94 8.5H3.56V20h3.38V8.5Zm.22-3.56C7.15 3.87 6.3 3 5.26 3S3.38 3.87 3.38 4.94c0 1.06.84 1.94 1.88 1.94 1.05 0 1.9-.88 1.9-1.94ZM20.62 13.02C20.62 9.92 18.96 8.3 16.74 8.3c-1.8 0-2.6 1-3.05 1.7V8.5h-3.24c.04.99 0 11.5 0 11.5h3.24v-6.42c0-.34.02-.68.13-.92.27-.68.88-1.38 1.9-1.38 1.34 0 1.88 1.04 1.88 2.56V20H20.62v-6.98Z" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
 
                 <aside class="hero-card">
                     <div class="avatar-wrap">
-                        <img src="Assets/profilepic.jpeg" alt="Portrait of redomilk" />
+                        <img src="Assets/profilepic2.jpeg" alt="Portrait" />
                     </div>
-                    <h2 style="font-size:1.4rem; letter-spacing:-0.04em; margin-bottom:0.35rem;">Hey, I’m redomilk.</h2>
+                    <h2 style="font-size:1.4rem; letter-spacing:-0.04em; margin-bottom:0.35rem;">Hi, I’m Liam Davidson.</h2>
                     <p class="muted">
                         Interested in immersive environments, player learning, encounter design, and interactive systems.
                     </p>
@@ -723,12 +851,13 @@
             </div>
         </section>
 
-        <section id="projects">
+        <section id="projects" class="depth-layer">
             <div class="container">
                 <div class="section-head">
                     <div>
+                        <p class="depth-label">Selected Work</p>
                         <h2>Projects</h2>
-                        <p>Search, filter, and open cards for more detail. I also added a few keyboard shortcuts for faster navigation.</p>
+                        <p>Filter projects by type and open dedicated case-study pages.</p>
                     </div>
                     <div class="filter-row" aria-label="Project filters">
                         <button class="filter-btn active" data-filter="all">All</button>
@@ -738,89 +867,158 @@
                     </div>
                 </div>
 
-                <div class="search-shell">
-                    <label class="search-wrap" for="projectSearch">
-                        <input id="projectSearch" type="text" placeholder="Search projects, roles, or tags…" autocomplete="off" />
-                        <span>/</span>
-                    </label>
-                    <div class="utility-row">
-                        <button class="utility-btn" id="featureToggle" type="button">Highlight featured</button>
-                        <button class="utility-btn" id="themeToggle" type="button">Toggle theme</button>
-                    </div>
-                    <div class="results-meta" id="resultsMeta">3 projects</div>
-                </div>
+                <div class="results-meta" id="resultsMeta" style="margin-bottom: 1rem;">3 projects</div>
 
                 <div class="projects-grid" id="projectGrid">
-                    <article class="project-card reveal featured" data-category="team" data-featured="true" data-title="Chaos Classroom" tabindex="0"
-                             data-long="A collaborative project developed across multiple semesters. Focus this card on your specific contributions: systems designed, features implemented, playtest changes, and what you learned from working in a team pipeline."
-                             data-role="Team project"
-                             data-stack="Design Systems Iteration Teamwork">
-                        <div class="project-top">
-                            <div>
-                                <h3>Chaos Classroom</h3>
-                                <p class="project-role">Team project • Spring 2024 – Spring 2025</p>
+                    <article class="project-card reveal featured" data-category="team" data-featured="true" tabindex="0">
+                        <a class="project-card-link" href="projects/chaos-classroom.html">
+                            <div class="project-image-wrap">
+                                <img src="Assets/CCheader.jpg" alt="Chaos Classroom project preview" class="project-image">
                             </div>
-                            <span class="chip">Team</span>
-                        </div>
-                        <p class="project-description">A team-developed game built across multiple semesters, shaped through playtesting and iteration.</p>
-                        <div class="chips">
-                            <span class="chip">Encounter design</span>
-                            <span class="chip">Iteration</span>
-                        </div>
-                        <div class="project-links">
-                            <a class="inline-link" href="#" data-open-modal="Chaos Classroom">Read more</a>
-                        </div>
+
+                            <div class="project-top">
+                                <div>
+                                    <h3>Chaos Classroom</h3>
+                                    <p class="project-role">Team project • Spring 2024 – Spring 2025</p>
+                                </div>
+                                <span class="chip">Team</span>
+                            </div>
+
+                            <p class="project-description">
+                                A team-developed game built across multiple semesters, shaped through playtesting and iteration.
+                            </p>
+
+                            <div class="chips">
+                                <span class="chip">Encounter design</span>
+                                <span class="chip">Iteration</span>
+                            </div>
+
+                            <div class="project-links">
+                                <span class="inline-link">View project</span>
+                            </div>
+                        </a>
                     </article>
 
-                    <article class="project-card reveal" data-category="solo" data-title="Abyss Dweller" tabindex="0"
-                             data-long="Your senior capstone is a good place to show ownership. Explain the core pitch, the main mechanic loop, what design problem you set out to solve, and what changed after testing."
-                             data-role="Solo capstone"
-                             data-stack="Solo Design Prototype Capstone">
-                        <div class="project-top">
-                            <div>
-                                <h3>Abyss Dweller</h3>
-                                <p class="project-role">Solo project • Senior capstone</p>
+                    <article class="project-card reveal" data-category="solo" tabindex="0">
+                        <a class="project-card-link" href="projects/abyss-dweller.html">
+                            <div class="project-image-wrap">
+                                <img src="Assets/abyss-dweller-cover.jpg" alt="Abyss Dweller project preview" class="project-image">
                             </div>
-                            <span class="chip">Solo</span>
-                        </div>
-                        <p class="project-description">A solo capstone project where I owned concept, design direction, and implementation.</p>
-                        <div class="chips">
-                            <span class="chip">Prototype</span>
-                            <span class="chip">Game feel</span>
-                        </div>
-                        <div class="project-links">
-                            <a class="inline-link" href="#" data-open-modal="Abyss Dweller">Read more</a>
-                        </div>
+
+                            <div class="project-top">
+                                <div>
+                                    <h3>Abyss Dweller</h3>
+                                    <p class="project-role">Solo project • Senior capstone</p>
+                                </div>
+                                <span class="chip">Solo</span>
+                            </div>
+
+                            <p class="project-description">
+                                A solo capstone project where I owned concept, design direction, and implementation.
+                            </p>
+
+                            <div class="chips">
+                                <span class="chip">Prototype</span>
+                                <span class="chip">Game feel</span>
+                            </div>
+
+                            <div class="project-links">
+                                <span class="inline-link">View project</span>
+                            </div>
+                        </a>
                     </article>
 
-                    <article class="project-card reveal" data-category="serious" data-title="Serious Games" tabindex="0"
-                             data-long="Use this section for projects with educational, experimental, persuasive, or research goals. Tighten the summary so it sounds intentional instead of like placeholder text."
-                             data-role="Experimental / serious design"
-                             data-stack="Serious Games Research Design">
-                        <div class="project-top">
-                            <div>
-                                <h3>Serious Games</h3>
-                                <p class="project-role">Experimental / serious design work</p>
+                    <article class="project-card reveal" data-category="serious" tabindex="0">
+                        <a class="project-card-link" href="projects/serious-games.html">
+                            <div class="project-image-wrap">
+                                <img src="Assets/serious-games-cover.jpg" alt="Serious Games project preview" class="project-image">
                             </div>
-                            <span class="chip">Serious</span>
-                        </div>
-                        <p class="project-description">Projects focused on communication, learning, or purpose-driven design goals.</p>
-                        <div class="chips">
-                            <span class="chip">Systems</span>
-                            <span class="chip">Research</span>
-                        </div>
-                        <div class="project-links">
-                            <a class="inline-link" href="#" data-open-modal="Serious Games">Read more</a>
-                        </div>
+
+                            <div class="project-top">
+                                <div>
+                                    <h3>Serious Games</h3>
+                                    <p class="project-role">Experimental / serious design work</p>
+                                </div>
+                                <span class="chip">Serious</span>
+                            </div>
+
+                            <p class="project-description">
+                                Projects focused on communication, learning, or purpose-driven design goals.
+                            </p>
+
+                            <div class="chips">
+                                <span class="chip">Systems</span>
+                                <span class="chip">Research</span>
+                            </div>
+
+                            <div class="project-links">
+                                <span class="inline-link">View project</span>
+                            </div>
+                        </a>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="about">
+        <section id="design-wall" class="depth-layer">
             <div class="container">
                 <div class="section-head">
                     <div>
+                        <p class="depth-label">Interactive</p>
+                        <h2>Design Wall</h2>
+                        <p>Leave a thought or sketch in response to the current prompt.</p>
+                    </div>
+                </div>
+
+                <div class="design-wall-shell">
+                    <div class="wall-controls panel reveal">
+                        <div class="prompt-row">
+                            <div>
+                                <p class="wall-label">Current prompt</p>
+                                <h3 id="wallQuestion" class="wall-question"></h3>
+                            </div>
+                            <button class="utility-btn" id="nextQuestionBtn" type="button">Next prompt</button>
+                        </div>
+
+                        <div class="mode-row">
+                            <button class="filter-btn active" id="textModeBtn" type="button">Text</button>
+                            <button class="filter-btn" id="drawModeBtn" type="button">Draw</button>
+                        </div>
+
+                        <div id="textComposer" class="composer-block">
+                            <label class="wall-label" for="wallText">Your note</label>
+                            <textarea id="wallText" maxlength="220" placeholder="Write a thought about the prompt..."></textarea>
+                            <div class="wall-meta">
+                                <span id="charCount">0 / 220</span>
+                            </div>
+                        </div>
+
+                        <div id="drawComposer" class="composer-block" hidden>
+                            <label class="wall-label" for="drawCanvas">Your sketch</label>
+                            <canvas id="drawCanvas" width="320" height="220"></canvas>
+                            <div class="draw-actions">
+                                <button class="utility-btn" id="clearDrawingBtn" type="button">Clear sketch</button>
+                            </div>
+                        </div>
+
+                        <div class="submit-row">
+                            <button class="btn primary" id="postNoteBtn" type="button">Post note</button>
+                            <button class="utility-btn" id="clearAllNotesBtn" type="button">Clear my notes</button>
+                        </div>
+                    </div>
+
+                    <div class="sticky-board-wrap panel reveal">
+                        <div class="sticky-board" id="stickyBoard"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="depth-layer">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <p class="depth-label">About</p>
                         <h2>About</h2>
                         <p>A small section that tells people how you think, not just what you made.</p>
                     </div>
@@ -858,10 +1056,11 @@
             </div>
         </section>
 
-        <section id="contact">
+        <section id="contact" class="depth-layer">
             <div class="container">
                 <div class="contact-box reveal">
-                    <h2 style="font-size: 1.8rem; letter-spacing:-0.04em;">Want to see more?</h2>
+                    <p class="depth-label">Contact</p>
+                    <h2 style="font-size: 1.8rem; letter-spacing:-0.04em;">Let’s connect.</h2>
                     <p>
                         I’m always open to talking about design work, prototypes, collaboration, and new opportunities.
                     </p>
@@ -875,95 +1074,27 @@
     </main>
 
     <footer>
-        built by redomilk — hosted on GitHub Pages
+        built by Liam Davidson — hosted on GitHub Pages
     </footer>
-
-    <div class="modal" id="projectModal" aria-hidden="true">
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <div class="modal-header">
-                <div>
-                    <p class="muted" id="modalRole"></p>
-                    <h3 id="modalTitle" style="font-size:1.6rem; letter-spacing:-0.04em;"></h3>
-                </div>
-                <button class="close-btn" id="closeModal" aria-label="Close project details">Close</button>
-            </div>
-            <p id="modalBody" class="muted" style="margin-bottom:1rem;"></p>
-            <div class="chips" id="modalTags"></div>
-        </div>
-    </div>
 
     <script>
         const navLinks = document.querySelectorAll('nav a[href^="#"]');
-        const scrollProgress = document.getElementById('scrollProgress');
-        const cursorTrail = document.getElementById('cursorTrail');
-        const trailLength = 12;
-        const trailDots = [];
-        for (let i = 0; i < trailLength; i++) {
-            const dot = document.createElement('div');
-            dot.className = 'trail-dot';
-            dot.style.opacity = (1 - i / trailLength).toString();
-            dot.style.transform = 'translate(-50%, -50%) scale(' + (1 - i / trailLength) + ')';
-            cursorTrail.appendChild(dot);
-            trailDots.push({ el: dot, x: 0, y: 0 });
-        }
-
-        let mouseX = 0;
-        let mouseY = 0;
-        const projectSearch = document.getElementById('projectSearch');
         const resultsMeta = document.getElementById('resultsMeta');
-        const featureToggle = document.getElementById('featureToggle');
-        const themeToggle = document.getElementById('themeToggle');
         const sections = document.querySelectorAll('main section[id]');
-        const filterButtons = document.querySelectorAll('.filter-btn');
+        const filterButtons = document.querySelectorAll('.filter-btn[data-filter]');
         const cards = document.querySelectorAll('.project-card');
-        const modal = document.getElementById('projectModal');
-        const closeModalBtn = document.getElementById('closeModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalRole = document.getElementById('modalRole');
-        const modalBody = document.getElementById('modalBody');
-        const modalTags = document.getElementById('modalTags');
+
         let featuredOnly = false;
 
-        const openModal = (card) => {
-            modalTitle.textContent = card.dataset.title;
-            modalRole.textContent = card.dataset.role;
-            modalBody.textContent = card.dataset.long;
-            modalTags.innerHTML = '';
-            card.dataset.stack.split(' ').forEach(tag => {
-                const span = document.createElement('span');
-                span.className = 'chip';
-                span.textContent = tag;
-                modalTags.appendChild(span);
-            });
-            modal.classList.add('open');
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-        };
-
-        const closeModal = () => {
-            modal.classList.remove('open');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        };
-
         const applyFilters = () => {
-            const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
-            const search = projectSearch.value.trim().toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active[data-filter]')?.dataset.filter || 'all';
             let visibleCount = 0;
 
             cards.forEach(card => {
                 const category = card.dataset.category;
-                const haystack = [
-                    card.dataset.title,
-                    card.dataset.role,
-                    card.dataset.stack,
-                    card.querySelector('.project-description')?.textContent || ''
-                ].join(' ').toLowerCase();
-
                 const matchesFilter = activeFilter === 'all' || activeFilter === category;
-                const matchesSearch = !search || haystack.includes(search);
                 const matchesFeatured = !featuredOnly || card.dataset.featured === 'true';
-                const show = matchesFilter && matchesSearch && matchesFeatured;
+                const show = matchesFilter && matchesFeatured;
 
                 card.classList.toggle('hidden', !show);
                 if (show) visibleCount += 1;
@@ -980,78 +1111,12 @@
             });
         });
 
-        projectSearch.addEventListener('input', applyFilters);
-
-        featureToggle.addEventListener('click', () => {
-            featuredOnly = !featuredOnly;
-            featureToggle.classList.toggle('active', featuredOnly);
-            featureToggle.textContent = featuredOnly ? 'Showing featured' : 'Highlight featured';
-            applyFilters();
-        });
-
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            const lightMode = document.body.classList.contains('light-mode');
-            themeToggle.classList.toggle('active', lightMode);
-            themeToggle.textContent = lightMode ? 'Dark theme' : 'Toggle theme';
-            localStorage.setItem('portfolio-theme', lightMode ? 'light' : 'dark');
-        });
-
-        const savedTheme = localStorage.getItem('portfolio-theme');
-        if (savedTheme === 'light') {
-            document.body.classList.add('light-mode');
-            themeToggle.classList.add('active');
-            themeToggle.textContent = 'Dark theme';
-        }
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const rotateY = ((x / rect.width) - 0.5) * 10;
-                const rotateX = ((y / rect.height) - 0.5) * -10;
-                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateX(0) rotateY(0) translateY(0)';
-            });
-
-            card.addEventListener('click', () => openModal(card));
-            card.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openModal(card);
-                }
-            });
-        });
-
-        document.querySelectorAll('[data-open-modal]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const matchingCard = Array.from(cards).find(card => card.dataset.title === link.dataset.openModal);
-                if (matchingCard) openModal(matchingCard);
-            });
-        });
-
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-            if (e.key === '/' && document.activeElement !== projectSearch) {
-                e.preventDefault();
-                projectSearch.focus();
-            }
-        });
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const id = entry.target.getAttribute('id');
                 const link = document.querySelector(`nav a[href="#${id}"]`);
                 if (!link) return;
+
                 if (entry.isIntersecting) {
                     navLinks.forEach(l => l.classList.remove('active'));
                     link.classList.add('active');
@@ -1069,40 +1134,274 @@
 
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        const updateScrollProgress = () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            scrollProgress.style.width = `${progress}%`;
-        };
+        const wallQuestions = [
+            "What makes a mechanic feel fair?",
+            "When does difficulty become frustration?",
+            "What game taught you something memorable?",
+            "What makes an encounter feel tense?",
+            "How should games reward curiosity?",
+            "What makes a game fun?",
+            "What's your favorite animal?",
+            "What's your favorite game?"
+        ];
 
-        window.addEventListener('scroll', updateScrollProgress, { passive: true });
-        updateScrollProgress();
-        applyFilters();
+        const stickyColors = ["sticky-yellow", "sticky-pink", "sticky-blue", "sticky-green"];
 
-        window.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
+        const wallQuestionEl = document.getElementById('wallQuestion');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const textModeBtn = document.getElementById('textModeBtn');
+        const drawModeBtn = document.getElementById('drawModeBtn');
+        const textComposer = document.getElementById('textComposer');
+        const drawComposer = document.getElementById('drawComposer');
+        const wallText = document.getElementById('wallText');
+        const charCount = document.getElementById('charCount');
+        const postNoteBtn = document.getElementById('postNoteBtn');
+        const clearAllNotesBtn = document.getElementById('clearAllNotesBtn');
+        const stickyBoard = document.getElementById('stickyBoard');
+        const drawCanvas = document.getElementById('drawCanvas');
+        const clearDrawingBtn = document.getElementById('clearDrawingBtn');
+        const drawCtx = drawCanvas.getContext('2d');
 
-        function animateTrail() {
-            let x = mouseX;
-            let y = mouseY;
+        let wallMode = 'text';
+        let currentWallQuestionIndex = 0;
+        let wallNotes = JSON.parse(localStorage.getItem('design-wall-notes') || '[]');
+        let drawingActive = false;
 
-            trailDots.forEach((dot, index) => {
-                dot.x += (x - dot.x) * 0.25;
-                dot.y += (y - dot.y) * 0.25;
-                dot.el.style.left = dot.x + 'px';
-                dot.el.style.top = dot.y + 'px';
-
-                x = dot.x;
-                y = dot.y;
-            });
-
-            requestAnimationFrame(animateTrail);
+        function saveWallNotes() {
+            localStorage.setItem('design-wall-notes', JSON.stringify(wallNotes));
         }
 
-        animateTrail();
+        function renderWallQuestion() {
+            wallQuestionEl.textContent = wallQuestions[currentWallQuestionIndex];
+        }
+
+        function nextWallQuestion() {
+            let newIndex;
+
+            do {
+                newIndex = Math.floor(Math.random() * wallQuestions.length);
+            } while (newIndex === currentWallQuestionIndex && wallQuestions.length > 1);
+
+            currentWallQuestionIndex = newIndex;
+            renderWallQuestion();
+        }
+
+        function setWallMode(mode) {
+            wallMode = mode;
+            const textActive = mode === 'text';
+
+            textModeBtn.classList.toggle('active', textActive);
+            drawModeBtn.classList.toggle('active', !textActive);
+            textComposer.hidden = !textActive;
+            drawComposer.hidden = textActive;
+        }
+
+        function updateCharCount() {
+            charCount.textContent = `${wallText.value.length} / 220`;
+        }
+
+        function clearDrawingCanvas() {
+            drawCtx.fillStyle = '#f8efb8';
+            drawCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
+        }
+
+        function setupDrawingCanvas() {
+            clearDrawingCanvas();
+            drawCtx.lineWidth = 3;
+            drawCtx.lineCap = 'round';
+            drawCtx.lineJoin = 'round';
+            drawCtx.strokeStyle = '#16242d';
+        }
+
+        function getCanvasPoint(e) {
+            const rect = drawCanvas.getBoundingClientRect();
+            const scaleX = drawCanvas.width / rect.width;
+            const scaleY = drawCanvas.height / rect.height;
+
+            return {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        }
+
+        drawCanvas.addEventListener('pointerdown', (e) => {
+            drawingActive = true;
+            const point = getCanvasPoint(e);
+            drawCtx.beginPath();
+            drawCtx.moveTo(point.x, point.y);
+        });
+
+        drawCanvas.addEventListener('pointermove', (e) => {
+            if (!drawingActive) return;
+            const point = getCanvasPoint(e);
+            drawCtx.lineTo(point.x, point.y);
+            drawCtx.stroke();
+        });
+
+        window.addEventListener('pointerup', () => {
+            drawingActive = false;
+        });
+
+        clearDrawingBtn.addEventListener('click', clearDrawingCanvas);
+
+        function makeNoteDraggable(noteEl, note) {
+            let startX = 0;
+            let startY = 0;
+            let originX = 0;
+            let originY = 0;
+            let dragging = false;
+
+            noteEl.addEventListener('pointerdown', (e) => {
+                dragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                originX = note.x;
+                originY = note.y;
+                noteEl.setPointerCapture(e.pointerId);
+                noteEl.style.zIndex = Date.now().toString().slice(-6);
+                noteEl.style.animationPlayState = 'paused';
+            });
+
+            noteEl.addEventListener('pointermove', (e) => {
+                if (!dragging) return;
+
+                const boardRect = stickyBoard.getBoundingClientRect();
+                const dx = ((e.clientX - startX) / boardRect.width) * 100;
+                const dy = ((e.clientY - startY) / boardRect.height) * 100;
+
+                note.x = Math.max(1, Math.min(78, originX + dx));
+                note.y = Math.max(2, Math.min(72, originY + dy));
+
+                noteEl.style.left = `${note.x}%`;
+                noteEl.style.top = `${note.y}%`;
+            });
+
+            noteEl.addEventListener('pointerup', () => {
+                if (!dragging) return;
+                dragging = false;
+                noteEl.style.animationPlayState = 'running';
+                noteEl.style.setProperty('--note-rotation', `${note.rotation}deg`);
+                saveWallNotes();
+            });
+        }
+
+        function createStickyNote(note) {
+            const noteEl = document.createElement('article');
+            noteEl.className = `sticky-note ${note.color}`;
+            noteEl.style.left = `${note.x}%`;
+            noteEl.style.top = `${note.y}%`;
+            noteEl.style.setProperty('--note-rotation', `${note.rotation}deg`);
+            noteEl.style.animationDelay = `0s, ${Math.random() * 2.5}s`;
+
+            const prompt = document.createElement('small');
+            prompt.textContent = note.question;
+            noteEl.appendChild(prompt);
+
+            if (note.type === 'text') {
+                const p = document.createElement('p');
+                p.textContent = note.content;
+                noteEl.appendChild(p);
+            } else {
+                const img = document.createElement('img');
+                img.src = note.content;
+                img.alt = 'User drawing note';
+                noteEl.appendChild(img);
+            }
+
+            makeNoteDraggable(noteEl, note);
+            return noteEl;
+        }
+
+        function renderWallNotes() {
+            stickyBoard.innerHTML = '';
+
+            if (!wallNotes.length) {
+                const empty = document.createElement('div');
+                empty.className = 'sticky-empty';
+                empty.innerHTML = `<p>No notes yet. Be the first to leave a thought or sketch.</p>`;
+                stickyBoard.appendChild(empty);
+                return;
+            }
+
+            wallNotes.forEach(note => {
+                stickyBoard.appendChild(createStickyNote(note));
+            });
+        }
+
+        function drawingIsBlank() {
+            const pixels = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height).data;
+            for (let i = 0; i < pixels.length; i += 4) {
+                const r = pixels[i];
+                const g = pixels[i + 1];
+                const b = pixels[i + 2];
+                if (!(r === 248 && g === 239 && b === 184)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function addWallNote() {
+            const question = wallQuestions[currentWallQuestionIndex];
+            let newNote = null;
+
+            if (wallMode === 'text') {
+                const value = wallText.value.trim();
+                if (!value) return;
+
+                newNote = {
+                    id: `note-${Date.now()}`,
+                    question,
+                    type: 'text',
+                    content: value,
+                    x: Math.random() * 65 + 4,
+                    y: Math.random() * 58 + 4,
+                    rotation: Math.random() * 10 - 5,
+                    color: stickyColors[Math.floor(Math.random() * stickyColors.length)]
+                };
+
+                wallText.value = '';
+                updateCharCount();
+            } else {
+                if (drawingIsBlank()) return;
+
+                newNote = {
+                    id: `note-${Date.now()}`,
+                    question,
+                    type: 'drawing',
+                    content: drawCanvas.toDataURL('image/png'),
+                    x: Math.random() * 65 + 4,
+                    y: Math.random() * 58 + 4,
+                    rotation: Math.random() * 10 - 5,
+                    color: stickyColors[Math.floor(Math.random() * stickyColors.length)]
+                };
+
+                clearDrawingCanvas();
+            }
+
+            wallNotes.push(newNote);
+            saveWallNotes();
+            renderWallNotes();
+            nextWallQuestion();
+        }
+
+        textModeBtn.addEventListener('click', () => setWallMode('text'));
+        drawModeBtn.addEventListener('click', () => setWallMode('draw'));
+        nextQuestionBtn.addEventListener('click', nextWallQuestion);
+        wallText.addEventListener('input', updateCharCount);
+        postNoteBtn.addEventListener('click', addWallNote);
+
+        clearAllNotesBtn.addEventListener('click', () => {
+            wallNotes = [];
+            saveWallNotes();
+            renderWallNotes();
+        });
+
+        applyFilters();
+        renderWallQuestion();
+        updateCharCount();
+        setupDrawingCanvas();
+        renderWallNotes();
     </script>
 </body>
 </html>
