@@ -479,6 +479,27 @@
              h1 {
                  text-shadow: 0 0 34px rgba(56, 189, 248, 0.18);
              }
+
+            #cursorTrail {
+                position: fixed !important;
+                inset: 0;
+                pointer-events: none;
+                z-index: 99999;
+                display: block !important;
+                mix-blend-mode: screen;
+            }
+
+            .trail-dot {
+                position: absolute;
+                display: block !important;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background: radial-gradient(circle, #38bdf8 0%, #f472b6 55%, transparent 75%);
+                box-shadow: 0 0 16px rgba(56,189,248,0.9), 0 0 34px rgba(244,114,182,0.45);
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+            }
     </style>
 </head>
 <body>
@@ -535,5 +556,57 @@
         </section>
     </main>
     <footer>built by Liam Davidson — hosted on GitHub Pages</footer>
+
+    <div id="cursorTrail" aria-hidden="true"></div>
+
+    <script>
+        const trailContainer = document.getElementById("cursorTrail");
+        const dots = [];
+        const DOT_COUNT = 14;
+
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        for (let i = 0; i < DOT_COUNT; i++) {
+            const dot = document.createElement("div");
+            dot.className = "trail-dot";
+            trailContainer.appendChild(dot);
+
+            dots.push({
+                el: dot,
+                x: mouseX,
+                y: mouseY
+            });
+        }
+
+        window.addEventListener("pointermove", (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            let x = mouseX;
+            let y = mouseY;
+
+            dots.forEach((dot, i) => {
+                dot.x += (x - dot.x) * 0.25;
+                dot.y += (y - dot.y) * 0.25;
+
+                dot.el.style.left = dot.x + "px";
+                dot.el.style.top = dot.y + "px";
+
+                const scale = 1 - i / DOT_COUNT;
+                dot.el.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                dot.el.style.opacity = scale;
+
+                x = dot.x;
+                y = dot.y;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
 </body>
 </html>
