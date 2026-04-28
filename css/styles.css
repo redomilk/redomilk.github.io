@@ -184,6 +184,31 @@
                 height: 19px;
             }
 
+        .note-delete-btn {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            width: 22px;
+            height: 22px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.75);
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            z-index: 5;
+        }
+
+        .sticky-note:hover .note-delete-btn {
+            opacity: 1;
+        }
+
+        .note-delete-btn:hover {
+            transform: scale(1.1);
+            background: rgba(244, 114, 182, 0.95);
+        }
+
         .btn,
         .chip,
         .filter-btn,

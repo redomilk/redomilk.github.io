@@ -85,6 +85,7 @@
                             <strong>∞</strong>
                             <span>More experiments ahead</span>
                         </div>
+                        <a href="Assets/Resume-2025-2026-LiamDavidson.pdf" download class="btn primary" style="margin-top: 1.25rem; width: 100%; text-align: center;">Download Resume</a>
                     </div>
                 </aside>
             </div>
@@ -287,7 +288,13 @@
         built by Liam Davidson — hosted on GitHub Pages
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
+        const SUPABASE_URL = "https://orzxvacdjmzhrfmkciks.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_Gb4xV4JFjst6tQJWdJ0jYA_CTLY8LV1";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         const navLinks = document.querySelectorAll('nav a[href^="#"]');
         const resultsMeta = document.getElementById('resultsMeta');
         const sections = document.querySelectorAll('main section[id]');
@@ -374,12 +381,8 @@
 
         let wallMode = 'text';
         let currentWallQuestionIndex = 0;
-        let wallNotes = JSON.parse(localStorage.getItem('design-wall-notes') || '[]');
+        let wallNotes = [];
         let drawingActive = false;
-
-        function saveWallNotes() {
-            localStorage.setItem('design-wall-notes', JSON.stringify(wallNotes));
-        }
 
         function renderWallQuestion() {
             wallQuestionEl.textContent = wallQuestions[currentWallQuestionIndex];
@@ -425,12 +428,9 @@
 
         function getCanvasPoint(e) {
             const rect = drawCanvas.getBoundingClientRect();
-            const scaleX = drawCanvas.width / rect.width;
-            const scaleY = drawCanvas.height / rect.height;
-
             return {
-                x: (e.clientX - rect.left) * scaleX,
-                y: (e.clientY - rect.top) * scaleY
+                x: (e.clientX - rect.left) * (drawCanvas.width / rect.width),
+                y: (e.clientY - rect.top) * (drawCanvas.height / rect.height)
             };
         }
 
@@ -454,6 +454,18 @@
 
         clearDrawingBtn.addEventListener('click', clearDrawingCanvas);
 
+        function drawingIsBlank() {
+            const pixels = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height).data;
+
+            for (let i = 0; i < pixels.length; i += 4) {
+                if (!(pixels[i] === 248 && pixels[i + 1] === 239 && pixels[i + 2] === 184)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         function makeNoteDraggable(noteEl, note) {
             let startX = 0;
             let startY = 0;
@@ -469,7 +481,6 @@
                 originY = note.y;
                 noteEl.setPointerCapture(e.pointerId);
                 noteEl.style.zIndex = Date.now().toString().slice(-6);
-                noteEl.style.animationPlayState = 'paused';
             });
 
             noteEl.addEventListener('pointermove', (e) => {
@@ -487,11 +498,7 @@
             });
 
             noteEl.addEventListener('pointerup', () => {
-                if (!dragging) return;
                 dragging = false;
-                noteEl.style.animationPlayState = 'running';
-                noteEl.style.setProperty('--note-rotation', `${note.rotation}deg`);
-                saveWallNotes();
             });
         }
 
@@ -501,7 +508,23 @@
             noteEl.style.left = `${note.x}%`;
             noteEl.style.top = `${note.y}%`;
             noteEl.style.setProperty('--note-rotation', `${note.rotation}deg`);
-            noteEl.style.animationDelay = `0s, ${Math.random() * 2.5}s`;
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'note-delete-btn';
+            deleteBtn.type = 'button';
+            deleteBtn.textContent = '×';
+            deleteBtn.setAttribute('aria-label', 'Delete note');
+
+            deleteBtn.addEventListener('pointerdown', (e) => {
+                e.stopPropagation();
+            });
+
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteWallNote(note.id);
+            });
+
+            noteEl.appendChild(deleteBtn);
 
             const prompt = document.createElement('small');
             prompt.textContent = note.question;
@@ -522,6 +545,22 @@
             return noteEl;
         }
 
+        async function deleteWallNote(noteId) {
+            const { error } = await supabaseClient
+                .from('design_wall_notes')
+                .delete()
+                .eq('id', noteId);
+
+            if (error) {
+                console.error('Error deleting note:', error);
+                alert('Could not delete note.');
+                return;
+            }
+
+            wallNotes = wallNotes.filter(note => note.id !== noteId);
+            renderWallNotes();
+        }
+
         function renderWallNotes() {
             stickyBoard.innerHTML = '';
 
@@ -538,20 +577,22 @@
             });
         }
 
-        function drawingIsBlank() {
-            const pixels = drawCtx.getImageData(0, 0, drawCanvas.width, drawCanvas.height).data;
-            for (let i = 0; i < pixels.length; i += 4) {
-                const r = pixels[i];
-                const g = pixels[i + 1];
-                const b = pixels[i + 2];
-                if (!(r === 248 && g === 239 && b === 184)) {
-                    return false;
-                }
+        async function loadWallNotes() {
+            const { data, error } = await supabaseClient
+                .from('design_wall_notes')
+                .select('*')
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                console.error('Error loading notes:', error);
+                return;
             }
-            return true;
+
+            wallNotes = data || [];
+            renderWallNotes();
         }
 
-        function addWallNote() {
+        async function addWallNote() {
             const question = wallQuestions[currentWallQuestionIndex];
             let newNote = null;
 
@@ -560,7 +601,6 @@
                 if (!value) return;
 
                 newNote = {
-                    id: `note-${Date.now()}`,
                     question,
                     type: 'text',
                     content: value,
@@ -576,7 +616,6 @@
                 if (drawingIsBlank()) return;
 
                 newNote = {
-                    id: `note-${Date.now()}`,
                     question,
                     type: 'drawing',
                     content: drawCanvas.toDataURL('image/png'),
@@ -589,9 +628,25 @@
                 clearDrawingCanvas();
             }
 
-            wallNotes.push(newNote);
-            saveWallNotes();
-            renderWallNotes();
+            const { data, error } = await supabaseClient
+                .from('design_wall_notes')
+                .insert([newNote])
+                .select();
+
+            if (error) {
+                console.error('Error posting note:', error);
+                alert('Could not post note. Check Supabase table/policies.');
+                return;
+            }
+
+            if (data && data[0]) {
+                const alreadyExists = wallNotes.some(note => note.id === data[0].id);
+                if (!alreadyExists) {
+                    wallNotes.push(data[0]);
+                    renderWallNotes();
+                }
+            }
+
             nextWallQuestion();
         }
 
@@ -602,16 +657,37 @@
         postNoteBtn.addEventListener('click', addWallNote);
 
         clearAllNotesBtn.addEventListener('click', () => {
-            wallNotes = [];
-            saveWallNotes();
-            renderWallNotes();
+            alert("Notes are shared online now, so clearing is disabled.");
         });
+
+        supabaseClient
+            .channel('design-wall-notes')
+            .on(
+                'postgres_changes',
+                { event: 'INSERT', schema: 'public', table: 'design_wall_notes' },
+                (payload) => {
+                    const alreadyExists = wallNotes.some(note => note.id === payload.new.id);
+                    if (!alreadyExists) {
+                        wallNotes.push(payload.new);
+                        renderWallNotes();
+                    }
+                }
+            )
+            .on(
+                'postgres_changes',
+                { event: 'DELETE', schema: 'public', table: 'design_wall_notes' },
+                (payload) => {
+                    wallNotes = wallNotes.filter(note => note.id !== payload.old.id);
+                    renderWallNotes();
+                }
+            )
+            .subscribe();
 
         applyFilters();
         renderWallQuestion();
         updateCharCount();
         setupDrawingCanvas();
-        renderWallNotes();
+        loadWallNotes();
     </script>
     <div id="cursorTrail" aria-hidden="true"></div>
     <script src="js/cursor.js"></script>
