@@ -1,251 +1,44 @@
-<header class="site-header">
-    <div class="container">
-        <a href="../index.html#top" class="logo">Liam Davidson</a>
-        <nav>
-            <a href="../index.html#projects">Projects</a>
-            <a href="../index.html#design-wall">Design Wall</a>
-            <a href="../index.html#about">About</a>
-            <a href="../index.html#contact">Contact</a>
-            <a href="https://github.com/redomilk" target="_blank" rel="noreferrer">GitHub</a>
-        </nav>
-    </div>
-</header>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Abyss Dweller — Liam Davidson</title>
-
+    <meta name="description" content="Project case study for Abyss Dweller by Liam Davidson." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-
-        /* ===== THEME ===== */
-        :root {
-            --bg: #111827;
-            --bg-soft: #1f2937;
-            --panel: rgba(255,255,255,0.08);
-            --border: rgba(255,255,255,0.14);
-            --text: #f8fafc;
-            --muted: #cbd5e1;
-            --accent-2: #38bdf8;
-            --accent-3: #f472b6;
-            --shadow: 0 24px 70px rgba(0,0,0,0.35);
-            --radius: 22px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Inter", sans-serif;
-            background: radial-gradient(circle at 12% 10%, rgba(56,189,248,0.22), transparent 28%), radial-gradient(circle at 88% 18%, rgba(244,114,182,0.18), transparent 26%), linear-gradient(180deg,#0f172a,#111827);
-            color: var(--text);
-        }
-
-        /* ===== LAYOUT ===== */
-        .container {
-            width: min(1100px, 100% - 2rem);
-            margin: auto;
-        }
-
-        section {
-            padding: 3rem 0;
-        }
-
-        h1 {
-            font-family: "Playfair Display", serif;
-            font-size: clamp(3rem,6vw,5rem);
-            margin-bottom: 1rem;
-        }
-
-        /* ===== HERO ===== */
-        .hero-video-wrap {
-            margin-top: 2rem;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-            .hero-video-wrap video {
-                width: 100%;
-                aspect-ratio: 16/9;
-                object-fit: cover;
-            }
-
-        /* ===== PANELS ===== */
-        .panel {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            backdrop-filter: blur(18px);
-            box-shadow: var(--shadow);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        @media(max-width:800px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            backdrop-filter: blur(12px);
-            background: rgba(15, 23, 42, 0.72);
-            border-bottom: 1px solid rgba(255,255,255,0.12);
-            box-shadow: 0 14px 45px rgba(0,0,0,0.24);
-        }
-
-            .site-header .container {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 1rem 0;
-            }
-
-        .logo {
-            font-family: "Playfair Display", serif;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            font-size: 1.2rem;
-        }
-
-        nav {
-            display: flex;
-            gap: 1rem;
-        }
-
-            nav a {
-                color: var(--muted);
-                font-size: 0.95rem;
-            }
-
-                nav a:hover {
-                    color: var(--text);
-                }
-
-        /* ===== CURSOR TRAIL ===== */
-        #cursorTrail {
-            position: fixed !important;
-            inset: 0;
-            pointer-events: none;
-            z-index: 99999;
-            mix-blend-mode: screen;
-        }
-
-        .trail-dot {
-            position: absolute;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #38bdf8, #f472b6, transparent 75%);
-            box-shadow: 0 0 16px rgba(56,189,248,0.9), 0 0 34px rgba(244,114,182,0.45);
-            transform: translate(-50%, -50%);
-        }
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
-
 <body>
-
-    <main>
-
-        <section>
+    <header class="site-header">
+        <div class="container">
+            <a href="../index.html#top" class="logo">Liam Davidson</a>
+            <nav>
+                <a href="../index.html#projects">Projects</a>
+                <a href="../index.html#design-wall">Design Wall</a>
+                <a href="../index.html#about">About</a>
+                <a href="../index.html#contact">Contact</a>
+                <a href="https://github.com/redomilk" target="_blank" rel="noreferrer">GitHub</a>
+            </nav>
+        </div>
+    </header>
+    <main id="top">
+        <section class="project-hero">
             <div class="container">
+                <a href="../index.html#projects" class="inline-link">← Back to projects</a>
+                <p class="eyebrow" style="margin-top:1.25rem;">Solo Project</p>
                 <h1>Abyss Dweller</h1>
-                <p>A solo roguelite focused on atmosphere and systems design.</p>
-
-                <div class="hero-video-wrap">
-                    <video controls playsinline poster="../Assets/abyss-dweller-cover.jpg">
-                        <source src="../Assets/vids/abyss-dweller-hero.mp4" type="video/mp4">
-                    </video>
-                </div>
-
+                <p class="lede">A solo capstone roguelite focused on atmosphere, combat systems, player feedback, and readable game feel.</p>
+                <div class="chips"><span class="chip">Solo development</span><span class="chip">Combat systems</span><span class="chip">Enemy AI</span><span class="chip">Game feel</span></div>
+                <div class="video-panel"><video class="hero-video" controls playsinline poster="../Assets/abyss-dweller-cover.jpg"><source src="../Assets/vids/abyss-dweller-hero.mp4" type="video/mp4"></video><p class="video-caption">Hero gameplay video</p></div>
+                <div class="project-meta-grid"><div class="stat"><strong>Project Type</strong><span>Solo Capstone</span></div><div class="stat"><strong>Role</strong><span>Solo Developer</span></div><div class="stat"><strong>Engine</strong><span>Unity</span></div><div class="stat"><strong>Focus</strong><span>Systems + feel</span></div></div>
             </div>
         </section>
-
-        <section>
-            <div class="container content-grid">
-
-                <div class="panel">
-                    <h2>Overview</h2>
-                    <p>Solo capstone project focused on combat systems, UI, and progression.</p>
-                </div>
-
-                <div class="panel">
-                    <h2>Role</h2>
-                    <p>Designed and implemented all gameplay systems.</p>
-                </div>
-
-            </div>
-        </section>
-
+        <section><div class="container content-grid"><article class="panel"><h2>Overview</h2><p>Abyss Dweller is a solo 2D roguelite capstone where I owned concept, design direction, implementation, and iteration.</p></article><article class="panel"><h2>My Role</h2><ul><li>Designed and implemented combat systems</li><li>Built enemy AI and player-facing UI</li><li>Created save and progression systems</li><li>Iterated on game feel, feedback, and scope</li></ul></article><article class="panel wide"><h2>Design Details</h2><p>The project focuses on making moment-to-moment combat feel readable and responsive while supporting a larger roguelite loop.</p></article><article class="panel"><h2>Design Challenges</h2><p>The biggest challenge was keeping the project scoped while still building enough systems to make the game feel complete and understandable to players.</p></article><article class="panel"><h2>What I Learned</h2><p>This project strengthened my ability to break complex systems down, prioritize features, and build gameplay tools that support player understanding.</p></article><article class="panel wide"><h2>Project Images</h2><div class="gallery-grid"><div class="gallery-card"><img src="../Assets/abyss-dweller-cover.jpg" alt="Abyss Dweller screenshot or cover image"></div><div class="gallery-card"><img src="../Assets/abyss-dweller-cover.jpg" alt="Abyss Dweller screenshot placeholder"></div><div class="gallery-card"><img src="../Assets/abyss-dweller-cover.jpg" alt="Abyss Dweller screenshot placeholder"></div></div></article></div></section>
     </main>
-
-    <footer style="text-align:center; padding:2rem; opacity:.6;">
-        built by Liam Davidson
-    </footer>
-
-    <!-- CURSOR -->
-    <div id="cursorTrail"></div>
-
-    <script>
-const trailContainer = document.getElementById("cursorTrail");
-const dots = [];
-const DOT_COUNT = 14;
-
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-
-for (let i = 0; i < DOT_COUNT; i++) {
-    const dot = document.createElement("div");
-    dot.className = "trail-dot";
-    trailContainer.appendChild(dot);
-
-    dots.push({ el: dot, x: mouseX, y: mouseY });
-}
-
-window.addEventListener("pointermove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-});
-
-function animate() {
-    let x = mouseX;
-    let y = mouseY;
-
-    dots.forEach((dot, i) => {
-        dot.x += (x - dot.x) * 0.25;
-        dot.y += (y - dot.y) * 0.25;
-
-        dot.el.style.left = dot.x + "px";
-        dot.el.style.top = dot.y + "px";
-
-        const scale = 1 - i / DOT_COUNT;
-        dot.el.style.transform = `translate(-50%, -50%) scale(${scale})`;
-        dot.el.style.opacity = scale;
-
-        x = dot.x;
-        y = dot.y;
-    });
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-    </script>
-
+    <footer>built by Liam Davidson — hosted on GitHub Pages</footer>
+    <div id="cursorTrail" aria-hidden="true"></div>
+    <script src="../js/cursor.js"></script>
 </body>
 </html>
